@@ -76,6 +76,12 @@ RUN --mount=type=ssh  \
     --mount=type=cache,target=/root/.cache/pip  \
     pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
+#Install NLTK for unstructured
+RUN --mount=type=ssh  \
+    --mount=type=cache,target=/root/.cache/pip  \
+    pip install nltk \
+    && python -m nltk.downloader punkt
+
 # Install additional pip packages
 RUN --mount=type=ssh  \
     --mount=type=cache,target=/root/.cache/pip  \
@@ -110,5 +116,8 @@ RUN --mount=type=ssh  \
 
 # RUN nohup bash -c "ollama serve &" && sleep 4 && ollama pull qwen2.5:7b
 RUN nohup bash -c "ollama serve &" && sleep 4 && ollama pull nomic-embed-text
+
+RUN python -m nltk.downloader punkt_tab -d /root/nltk_data
+RUN python -m nltk.downloader averaged_perceptron_tagger averaged_perceptron_tagger_eng
 
 ENTRYPOINT ["sh", "/app/launch.sh"]
