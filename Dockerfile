@@ -76,12 +76,6 @@ RUN --mount=type=ssh  \
     --mount=type=cache,target=/root/.cache/pip  \
     pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
-#Install NLTK for unstructured
-RUN --mount=type=ssh  \
-    --mount=type=cache,target=/root/.cache/pip  \
-    pip install nltk \
-    && python -m nltk.downloader punkt
-
 # Install additional pip packages
 RUN --mount=type=ssh  \
     --mount=type=cache,target=/root/.cache/pip  \
