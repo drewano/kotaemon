@@ -1,6 +1,4 @@
 #!/bin/bash
-export NLTK_DATA="/root/nltk_data"
-python -c "import nltk; nltk.data.path.append('/root/nltk_data')"
 
 if [ -z "$GRADIO_SERVER_NAME" ]; then
     export GRADIO_SERVER_NAME="0.0.0.0"
