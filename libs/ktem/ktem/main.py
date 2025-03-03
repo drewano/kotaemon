@@ -77,7 +77,7 @@ class App(BaseApp):
                         setattr(self, f"_index_{index.id}", page)
             elif len(self.index_manager.indices) > 1:
                 with gr.Tab(
-                    "Files",
+                    "Fichiers",
                     elem_id="indices-tab",
                     elem_classes=["fill-main-area-height", "scrollable", "indices-tab"],
                     id="indices-tab",
@@ -94,7 +94,7 @@ class App(BaseApp):
             if not KH_DEMO_MODE:
                 if not KH_SSO_ENABLED:
                     with gr.Tab(
-                        "Resources",
+                        "Ressources",
                         elem_id="resources-tab",
                         id="resources-tab",
                         visible=not self.f_user_management,
@@ -103,7 +103,7 @@ class App(BaseApp):
                         self.resources_page = ResourcesTab(self)
 
                 with gr.Tab(
-                    "Settings",
+                    "Paramètres",
                     elem_id="settings-tab",
                     id="settings-tab",
                     visible=not self.f_user_management,
@@ -112,7 +112,7 @@ class App(BaseApp):
                     self.settings_page = SettingsPage(self)
 
             with gr.Tab(
-                "Help",
+                "Aide",
                 elem_id="help-tab",
                 id="help-tab",
                 visible=not self.f_user_management,

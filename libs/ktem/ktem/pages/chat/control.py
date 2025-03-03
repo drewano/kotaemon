@@ -51,7 +51,7 @@ class ConversationControl(BasePage):
 
     def on_building_ui(self):
         with gr.Row():
-            title_text = "Conversations" if not KH_DEMO_MODE else "Kotaemon Papers"
+            title_text = "Conversations" if not KH_DEMO_MODE else "Papiers Kotaemon"
             gr.Markdown("## {}".format(title_text))
             self.btn_toggle_dark_mode = gr.Button(
                 value="",
@@ -90,7 +90,7 @@ class ConversationControl(BasePage):
 
         self.conversation_id = gr.State(value="")
         self.conversation = gr.Dropdown(
-            label="Chat sessions",
+            label="Sessions de chat",
             choices=[],
             container=False,
             filterable=True,
@@ -102,7 +102,7 @@ class ConversationControl(BasePage):
         with gr.Row() as self._new_delete:
             self.cb_suggest_chat = gr.Checkbox(
                 value=False,
-                label="Suggest chat",
+                label="Suggérer chat",
                 min_width=10,
                 scale=6,
                 elem_id="suggest-chat-checkbox",
@@ -111,7 +111,7 @@ class ConversationControl(BasePage):
             )
             self.cb_is_public = gr.Checkbox(
                 value=False,
-                label="Share this conversation",
+                label="Partager cette conversation",
                 elem_id="is-public-checkbox",
                 container=False,
                 visible=not KH_DEMO_MODE and not KH_SSO_ENABLED,
@@ -145,7 +145,7 @@ class ConversationControl(BasePage):
                 )
             else:
                 self.btn_new = gr.Button(
-                    value="New chat",
+                    value="Nouveau chat",
                     min_width=120,
                     size="sm",
                     scale=1,
@@ -157,7 +157,7 @@ class ConversationControl(BasePage):
         if KH_DEMO_MODE:
             with gr.Row():
                 self.btn_demo_login = gr.Button(
-                    "Sign-in to create new chat",
+                    "Connectez-vous pour créer un nouveau chat",
                     min_width=120,
                     size="sm",
                     scale=1,
@@ -172,7 +172,7 @@ class ConversationControl(BasePage):
                 self.btn_demo_login.click(None, js=_js_redirect)
 
                 self.btn_demo_logout = gr.Button(
-                    "Sign-out",
+                    "Déconnexion",
                     min_width=120,
                     size="sm",
                     scale=1,
@@ -181,16 +181,16 @@ class ConversationControl(BasePage):
 
         with gr.Row(visible=False) as self._delete_confirm:
             self.btn_del_conf = gr.Button(
-                value="Delete",
+                value="Supprimer",
                 variant="stop",
                 min_width=10,
             )
-            self.btn_del_cnl = gr.Button(value="Cancel", min_width=10)
+            self.btn_del_cnl = gr.Button(value="Annuler", min_width=10)
 
         with gr.Row():
             self.conversation_rn = gr.Text(
-                label="(Enter) to save",
-                placeholder="Conversation name",
+                label="(Entrée) pour sauvegarder",
+                placeholder="Nom de la conversation",
                 container=True,
                 scale=5,
                 min_width=10,
@@ -259,7 +259,7 @@ class ConversationControl(BasePage):
     def new_conv(self, user_id):
         """Create new chat"""
         if user_id is None:
-            gr.Warning("Please sign in first (Settings → User Settings)")
+            gr.Warning("Veuillez vous connecter d'abord (Paramètres → Paramètres utilisateur)")
             return None, gr.update()
         with Session(engine) as session:
             new_conv = Conversation(user=user_id)
@@ -275,11 +275,11 @@ class ConversationControl(BasePage):
     def delete_conv(self, conversation_id, user_id):
         """Delete the selected conversation"""
         if not conversation_id:
-            gr.Warning("No conversation selected.")
+            gr.Warning("Aucune conversation sélectionnée.")
             return None, gr.update()
 
         if user_id is None:
-            gr.Warning("Please sign in first (Settings → User Settings)")
+            gr.Warning("Veuillez vous connecter d'abord (Paramètres → Paramètres utilisateur)")
             return None, gr.update()
 
         with Session(engine) as session:
@@ -402,7 +402,7 @@ class ConversationControl(BasePage):
             session.commit()
 
         history = self.load_chat_history(user_id)
-        gr.Info("Conversation renamed.")
+        gr.Info("Conversation renommée.")
         return (
             gr.update(choices=history),
             conversation_id,
@@ -417,11 +417,11 @@ class ConversationControl(BasePage):
             return
 
         if user_id is None:
-            gr.Warning("Please sign in first (Settings → User Settings)")
+            gr.Warning("Veuillez vous connecter d'abord (Paramètres → Paramètres utilisateur)")
             return gr.update(), ""
 
         if not conversation_id:
-            gr.Warning("No conversation selected.")
+            gr.Warning("Aucune conversation sélectionnée.")
             return gr.update(), ""
 
         with Session(engine) as session:
@@ -437,7 +437,7 @@ class ConversationControl(BasePage):
             session.add(result)
             session.commit()
 
-        gr.Info("Chat suggestions updated.")
+        gr.Info("Suggestions de chat mises à jour.")
 
     def toggle_demo_login_visibility(self, user_api_key, request: gr.Request):
         try:

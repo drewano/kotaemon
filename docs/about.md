@@ -1,11 +1,5 @@
-# About Kotaemon
+# A Propos de Docasis
 
-An open-source tool for chatting with your documents. Built with both end users and
-developers in mind.
+Docasis est une application web professionnelle, basée sur une solution open-source (c'est-à-dire un logiciel dont le code source est accessible et modifiable par tous) nommée Kotaemon, conçue pour permettre aux collaborateurs de l'AFPA DR IDF d'automatiser l'analyse de documents complexes, transformant ainsi ces documents en une base de connaissance avec laquelle il est possible de chatter pour obtenir des réponses précises et personnalisées.
 
-[Source Code](https://github.com/Cinnamon/kotaemon) |
-[HF Space](https://huggingface.co/spaces/cin-model/kotaemon-demo)
-
-[Installation Guide](https://cinnamon.github.io/kotaemon/) |
-[Developer Guide](https://cinnamon.github.io/kotaemon/development/) |
-[Feedback](https://github.com/Cinnamon/kotaemon/issues)
+[Code Source](https://github.com/Cinnamon/kotaemon)

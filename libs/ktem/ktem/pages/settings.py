@@ -117,13 +117,13 @@ class SettingsPage(BasePage):
     def on_building_ui(self):
         if not KH_SSO_ENABLED:
             self.setting_save_btn = gr.Button(
-                "Save & Close",
+                "Enregistrer & Fermer",
                 variant="primary",
                 elem_classes=["right-button"],
                 elem_id="save-setting-btn",
             )
         if self._app.f_user_management:
-            with gr.Tab("User settings"):
+            with gr.Tab("Paramètres utilisateur"):
                 self.user_tab()
 
         self.app_tab()
@@ -233,22 +233,22 @@ class SettingsPage(BasePage):
 
     def user_tab(self):
         # user management
-        self.current_name = gr.Markdown("Current user: ___")
+        self.current_name = gr.Markdown("Utilisateur actuel : ___")
 
         if KH_SSO_ENABLED:
             import gradiologin as grlogin
 
-            self.sso_signout = grlogin.LogoutButton("Logout")
+            self.sso_signout = grlogin.LogoutButton("Déconnexion")
         else:
-            self.signout = gr.Button("Logout")
+            self.signout = gr.Button("Déconnexion")
 
             self.password_change = gr.Textbox(
-                label="New password", interactive=True, type="password"
+                label="Nouveau mot de passe", interactive=True, type="password"
             )
             self.password_change_confirm = gr.Textbox(
-                label="Confirm password", interactive=True, type="password"
+                label="Confirmer le mot de passe", interactive=True, type="password"
             )
-            self.password_change_btn = gr.Button("Change password", interactive=True)
+            self.password_change_btn = gr.Button("Changer le mot de passe", interactive=True)
 
     def change_password(self, user_id, password, password_confirm):
         from ktem.pages.resources.user import validate_password
@@ -268,14 +268,14 @@ class SettingsPage(BasePage):
                 user.password = hashed_password
                 session.add(user)
                 session.commit()
-                gr.Info("Password changed")
+                gr.Info("Mot de passe modifié")
             else:
-                gr.Warning("User not found")
+                gr.Warning("Utilisateur non trouvé")
 
         return "", ""
 
     def app_tab(self):
-        with gr.Tab("General", visible=self._render_app_tab):
+        with gr.Tab("Général", visible=self._render_app_tab):
             for n, si in self._default_settings.application.settings.items():
                 obj = render_setting_item(si, si.value)
                 self._components[f"application.{n}"] = obj
@@ -292,7 +292,7 @@ class SettingsPage(BasePage):
         #         self._components[f"index.{n}"] = obj
 
         id2name = {k: v.name for k, v in self._app.index_manager.info().items()}
-        with gr.Tab("Retrieval settings", visible=self._render_index_tab):
+        with gr.Tab("Paramètres de récupération", visible=self._render_index_tab):
             for pn, sig in self._default_settings.index.options.items():
                 name = id2name.get(pn, f"<id {pn}>")
                 with gr.Tab(name):
@@ -305,7 +305,7 @@ class SettingsPage(BasePage):
                             self._embeddings.append(obj)
 
     def reasoning_tab(self):
-        with gr.Tab("Reasoning settings", visible=self._render_reasoning_tab):
+        with gr.Tab("Paramètres de raisonnement", visible=self._render_reasoning_tab):
             with gr.Group():
                 for n, si in self._default_settings.reasoning.settings.items():
                     if n == "use":
@@ -317,7 +317,7 @@ class SettingsPage(BasePage):
                     if si.special_type == "embedding":
                         self._embeddings.append(obj)
 
-            gr.Markdown("### Reasoning-specific settings")
+            gr.Markdown("### Paramètres spécifiques au raisonnement")
             self._components["reasoning.use"] = render_setting_item(
                 self._default_settings.reasoning.settings["use"],
                 self._default_settings.reasoning.settings["use"].value,
@@ -332,7 +332,7 @@ class SettingsPage(BasePage):
                 ) as self._reasoning_mode[pn]:
                     reasoning = reasonings.get(pn, None)
                     if reasoning is None:
-                        gr.Markdown("**Name**: Description")
+                        gr.Markdown("**Nom**: Description")
                     else:
                         info = reasoning.get_info()
                         gr.Markdown(f"**{info['name']}**: {info['description']}")
@@ -366,17 +366,12 @@ class SettingsPage(BasePage):
         return output
 
     def save_setting(self, user_id: int, *args):
-        """Save the setting to disk and persist the setting to session state
-
-        Args:
-            user_id: the user id
-            args: all the values from the settings
-        """
-        setting = {key: value for key, value in zip(self.component_names(), args)}
+        """Save the settings to the database"""
         if user_id is None:
-            gr.Warning("Need to login before saving settings")
-            return setting
+            gr.Warning("Vous devez vous connecter avant d'enregistrer les paramètres")
+            return
 
+        setting = {key: value for key, value in zip(self.component_names(), args)}
         with Session(engine) as session:
             statement = select(Settings).where(Settings.user == user_id)
             try:
@@ -388,7 +383,7 @@ class SettingsPage(BasePage):
             session.add(user_setting)
             session.commit()
 
-        gr.Info("Setting saved")
+        gr.Info("Paramètres enregistrés")
         return setting
 
     def components(self) -> list:

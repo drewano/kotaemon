@@ -173,24 +173,24 @@ if OPENAI_API_KEY:
     }
 
 if config("LOCAL_MODEL", default=""):
-    KH_LLMS["ollama"] = {
-        "spec": {
-            "__type__": "kotaemon.llms.ChatOpenAI",
-            "base_url": KH_OLLAMA_URL,
-            "model": config("LOCAL_MODEL", default="qwen2.5:7b"),
-            "api_key": "ollama",
-        },
-        "default": False,
-    }
-    KH_LLMS["ollama-long-context"] = {
-        "spec": {
-            "__type__": "kotaemon.llms.LCOllamaChat",
-            "base_url": KH_OLLAMA_URL.replace("v1/", ""),
-            "model": config("LOCAL_MODEL", default="qwen2.5:7b"),
-            "num_ctx": 8192,
-        },
-        "default": False,
-    }
+    #KH_LLMS["ollama"] = {
+    #    "spec": {
+    #        "__type__": "kotaemon.llms.ChatOpenAI",
+    #        "base_url": KH_OLLAMA_URL,
+    #        "model": config("LOCAL_MODEL", default="qwen2.5:7b"),
+    #        "api_key": "ollama",
+    #    },
+    #    "default": False,
+    #}
+    #KH_LLMS["ollama-long-context"] = {
+    #    "spec": {
+    #        "__type__": "kotaemon.llms.LCOllamaChat",
+    #        "base_url": KH_OLLAMA_URL.replace("v1/", ""),
+    #        "model": config("LOCAL_MODEL", default="qwen2.5:7b"),
+    #        "num_ctx": 8192,
+    #    },
+    #    "default": False,
+    #}
 
     KH_EMBEDDINGS["ollama"] = {
         "spec": {
@@ -201,59 +201,59 @@ if config("LOCAL_MODEL", default=""):
         },
         "default": False,
     }
-    KH_EMBEDDINGS["fast_embed"] = {
-        "spec": {
-            "__type__": "kotaemon.embeddings.FastEmbedEmbeddings",
-            "model_name": "BAAI/bge-base-en-v1.5",
-        },
-        "default": False,
-    }
+    #KH_EMBEDDINGS["fast_embed"] = {
+    #    "spec": {
+    #        "__type__": "kotaemon.embeddings.FastEmbedEmbeddings",
+    #        "model_name": "BAAI/bge-base-en-v1.5",
+    #""    },
+    #    "default": False,
+    #}
 
 # additional LLM configurations
-KH_LLMS["claude"] = {
-    "spec": {
-        "__type__": "kotaemon.llms.chats.LCAnthropicChat",
-        "model_name": "claude-3-5-sonnet-20240620",
-        "api_key": "your-key",
-    },
-    "default": False,
-}
-KH_LLMS["google"] = {
-    "spec": {
-        "__type__": "kotaemon.llms.chats.LCGeminiChat",
-        "model_name": "gemini-1.5-flash",
-        "api_key": GOOGLE_API_KEY,
-    },
-    "default": not IS_OPENAI_DEFAULT,
-}
-KH_LLMS["groq"] = {
-    "spec": {
-        "__type__": "kotaemon.llms.ChatOpenAI",
-        "base_url": "https://api.groq.com/openai/v1",
-        "model": "llama-3.1-8b-instant",
-        "api_key": "your-key",
-    },
-    "default": False,
-}
-KH_LLMS["cohere"] = {
-    "spec": {
-        "__type__": "kotaemon.llms.chats.LCCohereChat",
-        "model_name": "command-r-plus-08-2024",
-        "api_key": config("COHERE_API_KEY", default="your-key"),
-    },
-    "default": False,
-}
+#KH_LLMS["claude"] = {
+#    "spec": {
+#        "__type__": "kotaemon.llms.chats.LCAnthropicChat",
+#        "model_name": "claude-3-5-sonnet-20240620",
+#        "api_key": "your-key",
+#    },
+#    "default": False,
+#}
+#KH_LLMS["google"] = {
+#    "spec": {
+#        "__type__": "kotaemon.llms.chats.LCGeminiChat",
+#        "model_name": "gemini-1.5-flash",
+#        "api_key": GOOGLE_API_KEY,
+#    },
+#    "default": not IS_OPENAI_DEFAULT,
+#}
+#KH_LLMS["groq"] = {
+#    "spec": {
+#        "__type__": "kotaemon.llms.ChatOpenAI",
+#        "base_url": "https://api.groq.com/openai/v1",
+#        "model": "llama-3.1-8b-instant",
+#        "api_key": "your-key",
+#    },
+#    "default": False,
+#}
+#KH_LLMS["cohere"] = {
+#    "spec": {
+#        "__type__": "kotaemon.llms.chats.LCCohereChat",
+#        "model_name": "command-r-plus-08-2024",
+#        "api_key": config("COHERE_API_KEY", default="your-key"),
+#    },
+#    "default": False,
+#}
 
 # additional embeddings configurations
-KH_EMBEDDINGS["cohere"] = {
-    "spec": {
-        "__type__": "kotaemon.embeddings.LCCohereEmbeddings",
-        "model": "embed-multilingual-v3.0",
-        "cohere_api_key": config("COHERE_API_KEY", default="your-key"),
-        "user_agent": "default",
-    },
-    "default": False,
-}
+#KH_EMBEDDINGS["cohere"] = {
+#    "spec": {
+#        "__type__": "kotaemon.embeddings.LCCohereEmbeddings",
+#        "model": "embed-multilingual-v3.0",
+#        "cohere_api_key": config("COHERE_API_KEY", default="your-key"),
+#        "user_agent": "default",
+#    },
+#    "default": False,
+#}
 KH_EMBEDDINGS["google"] = {
     "spec": {
         "__type__": "kotaemon.embeddings.LCGoogleEmbeddings",
@@ -306,7 +306,7 @@ SETTINGS_REASONING = {
     },
     "lang": {
         "name": "Language",
-        "value": "en",
+        "value": "fr",
         "choices": [(lang, code) for code, lang in SUPPORTED_LANGUAGE_MAP.items()],
         "component": "dropdown",
     },
@@ -333,28 +333,28 @@ if USE_LIGHTRAG:
 
 KH_INDEX_TYPES = [
     "ktem.index.file.FileIndex",
-    *GRAPHRAG_INDEX_TYPES,
+    #*GRAPHRAG_INDEX_TYPES,
 ]
 
-GRAPHRAG_INDICES = [
-    {
-        "name": graph_type.split(".")[-1].replace("Index", "")
-        + " Collection",  # get last name
-        "config": {
-            "supported_file_types": (
-                ".png, .jpeg, .jpg, .tiff, .tif, .pdf, .xls, .xlsx, .doc, .docx, "
-                ".pptx, .csv, .html, .mhtml, .txt, .md, .zip"
-            ),
-            "private": True,
-        },
-        "index_type": graph_type,
-    }
-    for graph_type in GRAPHRAG_INDEX_TYPES
-]
+#GRAPHRAG_INDICES = [
+#    {
+#        "name": graph_type.split(".")[-1].replace("Index", "")
+#        + " Collection",  # get last name
+#        "config": {
+#            "supported_file_types": (
+#                ".png, .jpeg, .jpg, .tiff, .tif, .pdf, .xls, .xlsx, .doc, .docx, "
+#                ".pptx, .csv, .html, .mhtml, .txt, .md, .zip"
+#           ),
+#            "private": True,
+#        },
+#        "index_type": graph_type,
+#    }
+#    for graph_type in GRAPHRAG_INDEX_TYPES
+#]
 
 KH_INDICES = [
     {
-        "name": "File Collection",
+        "name": "Collection de fichiers",
         "config": {
             "supported_file_types": (
                 ".png, .jpeg, .jpg, .tiff, .tif, .pdf, .xls, .xlsx, .doc, .docx, "
@@ -364,5 +364,5 @@ KH_INDICES = [
         },
         "index_type": "ktem.index.file.FileIndex",
     },
-    *GRAPHRAG_INDICES,
+    #*GRAPHRAG_INDICES,
 ]

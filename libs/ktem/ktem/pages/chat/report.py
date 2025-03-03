@@ -12,34 +12,34 @@ class ReportIssue(BasePage):
         self.on_building_ui()
 
     def on_building_ui(self):
-        with gr.Accordion(label="Feedback", open=False, elem_id="report-accordion"):
+        with gr.Accordion(label="Commentaires", open=False, elem_id="report-accordion"):
             self.correctness = gr.Radio(
                 choices=[
-                    ("The answer is correct", "correct"),
-                    ("The answer is incorrect", "incorrect"),
+                    ("La réponse est correcte", "correct"),
+                    ("La réponse est incorrecte", "incorrect"),
                 ],
-                label="Correctness:",
+                label="Correction :",
             )
             self.issues = gr.CheckboxGroup(
                 choices=[
-                    ("The answer is offensive", "offensive"),
-                    ("The evidence is incorrect", "wrong-evidence"),
+                    ("La réponse est offensante", "offensive"),
+                    ("Les preuves sont incorrectes", "wrong-evidence"),
                 ],
-                label="Other issue:",
+                label="Autre problème :",
             )
             self.more_detail = gr.Textbox(
                 placeholder=(
-                    "More detail (e.g. how wrong is it, what is the "
-                    "correct answer, etc...)"
+                    "Plus de détails (par exemple, à quel point est-ce faux, quelle est la "
+                    "bonne réponse, etc...)"
                 ),
                 container=False,
                 lines=3,
             )
             gr.Markdown(
-                "This will send the current chat and the user settings to "
-                "help with investigation"
+                "Ceci enverra la conversation actuelle et vos paramètres utilisateur pour "
+                "aider à l'enquête."
             )
-            self.report_btn = gr.Button("Report")
+            self.report_btn = gr.Button("Signaler")
 
     def report(
         self,
@@ -83,4 +83,4 @@ class ReportIssue(BasePage):
             )
             session.add(issue)
             session.commit()
-        gr.Info("Thank you for your feedback")
+        gr.Info("Merci pour vos commentaires")

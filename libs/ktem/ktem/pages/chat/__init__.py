@@ -272,7 +272,7 @@ class ChatPage(BasePage):
 
                 if len(self._app.index_manager.indices) > 0:
                     quick_upload_label = (
-                        "Quick Upload" if not KH_DEMO_MODE else "Or input new paper URL"
+                        "Téléchargement rapide" if not KH_DEMO_MODE else "Or input new paper URL"
                     )
 
                     with gr.Accordion(label=quick_upload_label) as _:
@@ -390,7 +390,7 @@ class ChatPage(BasePage):
                 scale=INFO_PANEL_SCALES[False], elem_id="chat-info-panel"
             ) as self.info_column:
                 with gr.Accordion(
-                    label="Information panel", open=True, elem_id="info-expand"
+                    label="Tableau de bord", open=True, elem_id="info-expand"
                 ):
                     self.modal = gr.HTML("<div id='pdf-modal'></div>")
                     self.plot_panel = gr.Plot(visible=False)

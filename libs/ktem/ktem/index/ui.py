@@ -24,7 +24,7 @@ def update_current_module_atime():
 
 def format_description(cls):
     user_settings = cls.get_admin_settings()
-    params_lines = ["| Name | Default | Description |", "| --- | --- | --- |"]
+    params_lines = ["| Nom | Défaut | Description |", "| --- | --- | --- |"]
     for key, value in user_settings.items():
         params_lines.append(
             f"| {key} | {value.get('value', '')} | {value.get('info', '')} |"
@@ -37,14 +37,14 @@ class IndexManagement(BasePage):
         self._app = app
         self.manager: IndexManager = app.index_manager
         self.spec_desc_default = (
-            "# Spec description\n\nSelect an index to view the spec description."
+            "# Description des spécifications\n\nSélectionnez un index pour voir sa description."
         )
         self.on_building_ui()
 
     def on_building_ui(self):
-        with gr.Tab(label="View"):
+        with gr.Tab(label="Visualiser"):
             self.index_list = gr.DataFrame(
-                headers=["id", "name", "index type"],
+                headers=["id", "nom", "type d'index"],
                 interactive=False,
             )
 
@@ -53,55 +53,55 @@ class IndexManagement(BasePage):
                 with gr.Row():
                     with gr.Column():
                         self.edit_name = gr.Textbox(
-                            label="Index name",
+                            label="Nom de l'index",
                         )
                         self.edit_spec = gr.Textbox(
-                            label="Index config",
-                            info="Admin configuration of the Index in YAML format",
+                            label="Configuration de l'index",
+                            info="Configuration administrateur de l'index au format YAML",
                             lines=10,
                         )
 
                         gr.Markdown(
-                            "IMPORTANT: Changing or deleting the index will require "
-                            "restarting the system. Some config settings will require "
-                            "rebuilding the index for the index to work properly."
+                            "IMPORTANT: La modification ou la suppression de l'index nécessitera "
+                            "un redémarrage du système. Certains paramètres de configuration nécessiteront "
+                            "la reconstruction de l'index pour qu'il fonctionne correctement."
                         )
                         with gr.Row():
                             self.btn_edit_save = gr.Button(
-                                "Save", min_width=10, variant="primary"
+                                "Enregistrer", min_width=10, variant="primary"
                             )
                             self.btn_delete = gr.Button(
-                                "Delete", min_width=10, variant="stop"
+                                "Supprimer", min_width=10, variant="stop"
                             )
                             with gr.Row(visible=False) as self._delete_confirm:
                                 self.btn_delete_yes = gr.Button(
-                                    "Confirm Delete",
+                                    "Confirmer la suppression",
                                     variant="stop",
                                     min_width=10,
                                 )
-                                self.btn_delete_no = gr.Button("Cancel", min_width=10)
-                            self.btn_close = gr.Button("Close", min_width=10)
+                                self.btn_delete_no = gr.Button("Annuler", min_width=10)
+                            self.btn_close = gr.Button("Fermer", min_width=10)
 
                     with gr.Column():
-                        self.edit_spec_desc = gr.Markdown("# Spec description")
+                        self.edit_spec_desc = gr.Markdown("# Description des spécifications")
 
-        with gr.Tab(label="Add"):
+        with gr.Tab(label="Ajouter"):
             with gr.Row():
                 with gr.Column(scale=2):
                     self.name = gr.Textbox(
-                        label="Index name",
-                        info="Must be unique and non-empty.",
+                        label="Nom de l'index",
+                        info="Doit être unique et non vide.",
                     )
-                    self.index_type = gr.Dropdown(label="Index type")
+                    self.index_type = gr.Dropdown(label="Type d'index")
                     self.spec = gr.Textbox(
-                        label="Specification",
-                        info="Specification of the index in YAML format.",
+                        label="Spécification",
+                        info="Spécification de l'index au format YAML.",
                     )
                     gr.Markdown(
                         "<mark>Note</mark>: "
-                        "After creating index, please restart the app"
+                        "Après avoir créé l'index, veuillez redémarrer l'application"
                     )
-                    self.btn_new = gr.Button("Add", variant="primary")
+                    self.btn_new = gr.Button("Ajouter", variant="primary")
 
                 with gr.Column(scale=3):
                     self.spec_desc = gr.Markdown(self.spec_desc_default)
@@ -251,9 +251,9 @@ class IndexManagement(BasePage):
                 config=yaml.load(config, Loader=YAMLNoDateSafeLoader),
                 index_type=index_type,
             )
-            gr.Info(f'Create index "{name}" successfully. Please restart the app!')
+            gr.Info(f'Index "{name}" créé avec succès. Veuillez redémarrer l\'application !')
         except Exception as e:
-            raise gr.Error(f"Failed to create Embedding model {name}: {e}")
+            raise gr.Error(f"Échec de la création du modèle d'intégration {name}: {e}")
 
     def list_indices(self):
         """List the indices constructed by the user"""
@@ -261,15 +261,15 @@ class IndexManagement(BasePage):
         for item in self.manager.indices:
             record = {}
             record["id"] = item.id
-            record["name"] = item.name
-            record["index type"] = item.__class__.__name__
+            record["nom"] = item.name
+            record["type d'index"] = item.__class__.__name__
             items.append(record)
 
         if items:
             indices_list = pd.DataFrame.from_records(items)
         else:
             indices_list = pd.DataFrame.from_records(
-                [{"id": "-", "name": "-", "index type": "-"}]
+                [{"id": "-", "nom": "-", "type d'index": "-"}]
             )
 
         return indices_list
@@ -277,7 +277,7 @@ class IndexManagement(BasePage):
     def select_index(self, index_list, ev: gr.SelectData) -> int:
         """Return the index id"""
         if ev.value == "-" and ev.index[0] == 0:
-            gr.Info("No index is constructed. Please create one first!")
+            gr.Info("Aucun index n'est construit. Veuillez en créer un d'abord !")
             return -1
 
         if not ev.selected:
@@ -314,16 +314,16 @@ class IndexManagement(BasePage):
         try:
             spec = yaml.load(config, Loader=YAMLNoDateSafeLoader)
             self.manager.update_index(selected_index_id, name, spec)
-            gr.Info(f'Update index "{name}" successfully. Please restart the app!')
+            gr.Info(f'Index "{name}" mis à jour avec succès. Veuillez redémarrer l\'application !')
         except Exception as e:
-            raise gr.Error(f'Failed to save index "{name}": {e}')
+            raise gr.Error(f'Échec de l\'enregistrement de l\'index "{name}": {e}')
 
     def delete_index(self, selected_index_id):
         try:
             self.manager.delete_index(selected_index_id)
-            gr.Info("Delete index successfully. Please restart the app!")
+            gr.Info("Index supprimé avec succès. Veuillez redémarrer l'application !")
         except Exception as e:
-            gr.Warning(f"Fail to delete index: {e}")
+            gr.Warning(f"Échec de la suppression de l'index : {e}")
             return selected_index_id
 
         return -1
