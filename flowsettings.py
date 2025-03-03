@@ -26,7 +26,7 @@ if not KH_APP_VERSION:
         KH_APP_VERSION = "local"
 
 KH_GRADIO_SHARE = config("KH_GRADIO_SHARE", default=False, cast=bool)
-KH_ENABLE_FIRST_SETUP = config("KH_ENABLE_FIRST_SETUP", default=True, cast=bool)
+KH_ENABLE_FIRST_SETUP = config("KH_ENABLE_FIRST_SETUP", default=False, cast=bool)
 KH_DEMO_MODE = config("KH_DEMO_MODE", default=False, cast=bool)
 KH_OLLAMA_URL = config("KH_OLLAMA_URL", default="http://localhost:11434/v1/")
 
@@ -146,18 +146,18 @@ GOOGLE_API_KEY = config("GOOGLE_API_KEY", default="your-key")
 IS_OPENAI_DEFAULT = len(OPENAI_API_KEY) > 0 and OPENAI_API_KEY != OPENAI_DEFAULT
 
 if OPENAI_API_KEY:
-    KH_LLMS["openai"] = {
-        "spec": {
-            "__type__": "kotaemon.llms.ChatOpenAI",
-            "temperature": 0,
-            "base_url": config("OPENAI_API_BASE", default="")
-            or "https://api.openai.com/v1",
-            "api_key": OPENAI_API_KEY,
-            "model": config("OPENAI_CHAT_MODEL", default="gpt-4o-mini"),
-            "timeout": 20,
-        },
-        "default": IS_OPENAI_DEFAULT,
-    }
+    #KH_LLMS["openai"] = {
+    #    "spec": {
+    #        "__type__": "kotaemon.llms.ChatOpenAI",
+    #        "temperature": 0,
+    #        "base_url": config("OPENAI_API_BASE", default="")
+    #        or "https://api.openai.com/v1",
+    #        "api_key": OPENAI_API_KEY,
+    #        "model": config("OPENAI_CHAT_MODEL", default="gpt-4o-mini"),
+    #        "timeout": 20,
+    #    },
+    #    "default": IS_OPENAI_DEFAULT,
+    #}
     KH_EMBEDDINGS["openai"] = {
         "spec": {
             "__type__": "kotaemon.embeddings.OpenAIEmbeddings",
@@ -283,8 +283,8 @@ KH_RERANKINGS["cohere"] = {
 KH_REASONINGS = [
     "ktem.reasoning.simple.FullQAPipeline",
     "ktem.reasoning.simple.FullDecomposeQAPipeline",
-    "ktem.reasoning.react.ReactAgentPipeline",
-    "ktem.reasoning.rewoo.RewooAgentPipeline",
+    #"ktem.reasoning.react.ReactAgentPipeline",
+    #"ktem.reasoning.rewoo.RewooAgentPipeline",
 ]
 KH_REASONINGS_USE_MULTIMODAL = config("USE_MULTIMODAL", default=False, cast=bool)
 KH_VLM_ENDPOINT = "{0}/openai/deployments/{1}/chat/completions?api-version={2}".format(

@@ -314,17 +314,17 @@ class ChatPage(BasePage):
                 self.chat_panel = ChatPanel(self._app)
 
                 with gr.Accordion(
-                    label="Chat settings",
+                    label="Paramètres",
                     elem_id="chat-settings-expand",
                     open=False,
                     visible=not KH_DEMO_MODE,
                 ) as self.chat_settings:
                     with gr.Row(elem_id="quick-setting-labels"):
-                        gr.HTML("Reasoning method")
+                        gr.HTML("Raisonnement")
                         gr.HTML(
-                            "Model", visible=not KH_DEMO_MODE and not KH_SSO_ENABLED
+                            "Modèle IA", visible=not KH_DEMO_MODE and not KH_SSO_ENABLED
                         )
-                        gr.HTML("Language")
+                        gr.HTML("Langue")
 
                     with gr.Row():
                         reasoning_setting = (
@@ -372,7 +372,7 @@ class ChatPage(BasePage):
                         if not config("USE_LOW_LLM_REQUESTS", default=False, cast=bool):
                             self.use_mindmap = gr.State(value=True)
                             self.use_mindmap_check = gr.Checkbox(
-                                label="Mindmap (on)",
+                                label="Mindmap (oui)",
                                 container=False,
                                 elem_id="use-mindmap-checkbox",
                                 value=True,
@@ -380,7 +380,7 @@ class ChatPage(BasePage):
                         else:
                             self.use_mindmap = gr.State(value=False)
                             self.use_mindmap_check = gr.Checkbox(
-                                label="Mindmap (off)",
+                                label="Mindmap (non)",
                                 container=False,
                                 elem_id="use-mindmap-checkbox",
                                 value=False,

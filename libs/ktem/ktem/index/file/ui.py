@@ -1618,8 +1618,8 @@ class FileSelector(BasePage):
         self.mode = gr.Radio(
             value=default_mode,
             choices=[
-                ("Search All", "all"),
-                ("Search In File(s)", "select"),
+                ("Tout", "all"),
+                ("Fichiers", "select"),
             ],
             container=False,
         )

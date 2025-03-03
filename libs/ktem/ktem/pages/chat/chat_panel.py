@@ -8,7 +8,7 @@ if not KH_DEMO_MODE:
     PLACEHOLDER_TEXT = (
         "Ceci est le début d'une nouvelle conversation.\n"
         "Commencez par télécharger un fichier ou une URL web. "
-        "Visitez l'onglet Fichiers pour plus d'options (ex: GraphRAG)."
+        "Visitez l'onglet Fichiers pour plus d'options."
     )
 else:
     PLACEHOLDER_TEXT = (
